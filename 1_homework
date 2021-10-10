@@ -1,0 +1,23 @@
+package main
+
+import (
+	"fmt"
+	"log"
+	"net/http"
+	"strings"
+)
+
+func main() {
+	http.HandleFunc("/", rootHandler)
+	err := http.ListenAndServe(":9091", nil)
+	if err != nil {
+		log.Fatal("ListenAndServe: ", err)
+	}
+}
+func rootHandler(w http.ResponseWriter, r *http.Request) {
+	for k, v := range r.Header {
+		w.Header().Add(k, strings.Join(v, " "))
+	}
+	fmt.Fprintf(w, "第一次作业")
+
+}
